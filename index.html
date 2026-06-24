@@ -547,7 +547,7 @@
         <span class="hero-label" id="carousel-label">The app</span>
         <h1 id="carousel-heading">Teams run better with MyToast.</h1>
         <p id="carousel-body">MyToast gives every employee instant access to their schedule, pay, and documents — so operators spend less time fielding questions and more time running the floor.</p>
-        <a class="btn-primary" href="https://project-mytoast-template-782.magicpatterns.app/" target="_blank">Open demo</a>
+        <a class="btn-primary demo-link" href="https://project-mytoast-template-782.magicpatterns.app/" target="_blank">Open demo</a>
         <div class="carousel-dots" id="carousel-dots"></div>
       </div>
 
@@ -643,7 +643,7 @@
           <div class="step-body">
             <strong>Open the demo</strong>
             <span>Tap the button to open MyToast in your browser.</span>
-            <a class="btn-step" href="https://project-mytoast-template-782.magicpatterns.app/" target="_blank">Open demo</a>
+            <a class="btn-step demo-link" href="https://project-mytoast-template-782.magicpatterns.app/" target="_blank">Open demo</a>
           </div>
         </li>
         <li>
@@ -1002,6 +1002,19 @@
         }, 100 + i * 60);
       });
     }
+  </script>
+
+  <script>
+    const DEMO_MOBILE  = 'https://project-mytoast-template-782.magicpatterns.app/';
+    const DEMO_DESKTOP = 'https://project-mytoast-template-782.magicpatterns.app/?frame=device';
+
+    document.querySelectorAll('.demo-link').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const url = window.innerWidth <= 768 ? DEMO_MOBILE : DEMO_DESKTOP;
+        window.open(url, '_blank');
+      });
+    });
   </script>
 </body>
 </html>
