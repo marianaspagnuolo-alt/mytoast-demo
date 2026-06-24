@@ -2,7 +2,7 @@
 
 A sales landing page for the MyToast employee app, used by Toast sales reps to demo the product to restaurant operators.
 
-**Live site:** https://pages.github.toasttab.com/marianaspagnuolo-toast/mytoast-demo/
+**Live site:** https://marianaspagnuolo-alt.github.io/mytoast-demo/
 
 **Demo app:** https://project-mytoast-template-782.magicpatterns.app/
 
@@ -19,7 +19,7 @@ A sales landing page for the MyToast employee app, used by Toast sales reps to d
 1. Edit `index.html` locally
 2. Run in your terminal:
    ```
-   cd "/Users/mariana.spagnuolo/Desktop/_Toast/2606 Prototype for sales/_final files/mytoast-demo"
+   cd "/Users/mariana.spagnuolo/Desktop/_Toast/2606 Prototype for sales/_final files/mytoast-demo/"
    git add . && git commit -m "describe your change" && git push
    ```
 3. The live site updates automatically within ~1 minute
