@@ -1009,7 +1009,7 @@
     const DEMO_DESKTOP = 'https://project-mytoast-template-782.magicpatterns.app/?frame=device';
 
     function isMobileDevice() {
-      return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || navigator.maxTouchPoints > 1;
+      return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
 
     document.querySelectorAll('.demo-link').forEach(link => {
