@@ -1008,10 +1008,14 @@
     const DEMO_MOBILE  = 'https://project-mytoast-template-782.magicpatterns.app/';
     const DEMO_DESKTOP = 'https://project-mytoast-template-782.magicpatterns.app/?frame=device';
 
+    function isMobileDevice() {
+      return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || navigator.maxTouchPoints > 1;
+    }
+
     document.querySelectorAll('.demo-link').forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
-        const url = window.innerWidth <= 768 ? DEMO_MOBILE : DEMO_DESKTOP;
+        const url = isMobileDevice() ? DEMO_MOBILE : DEMO_DESKTOP;
         window.open(url, '_blank');
       });
     });
