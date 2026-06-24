@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyToast — Employee App Preview</title>
+  <link rel="icon" type="image/svg+xml" href="App Icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Wix Madefor Display", -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #ffffff;
+      color: #111;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── MAX WIDTH CONTAINER ── */
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    /* ── DARK HERO WRAPPER ── */
+    .hero-outer {
+      background: #0d0d0d;
+    }
+
+    /* ── LOGO ── */
+    .logo {
+      padding: 28px 0;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo svg {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+    }
+
+    /* ── HERO ── */
+    .hero-outer {
+      overflow: hidden;
+    }
+
+    .hero {
+      display: flex;
+      align-items: stretch;
+      min-height: 680px;
+    }
+
+    .hero-text {
+      flex-shrink: 0;
+      width: max(600px, calc((100vw - 1080px) / 2 + 600px));
+      padding-left: max(48px, calc((100vw - 1080px) / 2 + 48px));
+      padding-right: 80px;
+      padding-top: 48px;
+      padding-bottom: 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 16px;
+    }
+
+    .hero-text h1 {
+      font-size: 60px;
+      font-weight: 500;
+      line-height: 1.05;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .hero-text p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      align-self: flex-start;
+      background: #fff;
+      color: #0d0d0d;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 100px;
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.85;
+      transform: scale(1.03);
+    }
+
+    .btn-step {
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn-step:hover {
+      opacity: 0.75;
+      transform: scale(1.03);
+    }
+
+    /* ── CAROUSEL DOTS ── */
+    .carousel-dots {
+      display: flex;
+      gap: 8px;
+      margin-top: 36px;
+    }
+
+    .carousel-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      cursor: pointer;
+      transition: background 0.3s, width 0.3s;
+      border: none;
+      padding: 0;
+    }
+
+    .carousel-dot.active {
+      background: #fff;
+      width: 20px;
+      border-radius: 3px;
+    }
+
+    /* ── SCREEN CAROUSEL ── */
+    .iphone-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      overflow: visible;
+      padding-left: 40px;
+    }
+
+    .screens-track {
+      position: relative;
+      /* width and height set by JS */
+    }
+
+    .screen-img {
+      width: 260px;
+      border-radius: 28px;
+      display: block;
+      flex-shrink: 0;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .screen-img {
+      transform: translateY(-50%);
+    }
+
+    .screen-img.is-active {
+      width: 300px;
+      cursor: default;
+    }
+
+    .screen-img.is-next {
+      width: 240px;
+    }
+
+    .screen-img.is-far {
+      width: 210px;
+    }
+
+    /* ── STATS ── */
+    .stats-outer {
+      border-top: 1px solid #f0f0f0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding: 48px 0;
+      gap: 16px;
+    }
+
+    .stat-value {
+      font-size: 64px;
+      font-weight: 500;
+      letter-spacing: -1px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 16px;
+      color: #777;
+      line-height: 1.4;
+    }
+
+    /* ── FEATURES ── */
+    .features {
+      padding: 72px 0;
+      text-align: center;
+    }
+
+    .features h2 {
+      font-size: 52px;
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+
+    .features .subtitle {
+      font-size: 18px;
+      color: #777;
+      margin-bottom: 48px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      text-align: left;
+    }
+
+    .feature-card {
+      background: #f7f7f7;
+      border-radius: 16px;
+      padding: 36px 28px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    }
+
+    .feature-icon {
+      margin-bottom: 24px;
+    }
+
+    .feature-icon svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .feature-card h3 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      font-size: 15px;
+      color: #888;
+      line-height: 1.6;
+    }
+
+    /* ── INSTRUCTIONS ── */
+    .instructions-outer {
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .instructions {
+      padding: 80px 0 96px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .instructions-media {
+      background: #e8e8e8;
+      border-radius: 16px;
+      aspect-ratio: 4/5;
+      width: 100%;
+    }
+
+    .instructions-content h2 {
+      font-size: 52px;
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+
+    .instructions-content .subtitle {
+      font-size: 18px;
+      color: #777;
+      margin-bottom: 40px;
+    }
+
+    .steps {
+      list-style: none;
+    }
+
+    .steps li {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .step-num {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111;
+      min-width: 24px;
+    }
+
+    .step-body strong {
+      display: block;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .step-body span {
+      display: block;
+      font-size: 15px;
+      font-weight: 400;
+      color: #888;
+      margin-top: 3px;
+      line-height: 1.5;
+    }
+
+    .btn-step {
+      display: inline-block;
+      margin-top: 12px;
+      background: #111;
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 100px;
+      letter-spacing: -0.1px;
+    }
+
+    /* iOS / Android sub-steps */
+    .device-note {
+      margin-top: 14px;
+    }
+
+    .device-note h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 14px;
+      color: #888;
+    }
+
+    .device-note h4:first-child {
+      margin-top: 0;
+    }
+
+    .device-note ol {
+      padding-left: 0;
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .device-note ol li {
+      display: flex;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 400;
+      color: #888;
+      line-height: 1.5;
+      margin-bottom: 4px;
+    }
+
+    .device-note ol li:last-child {
+      margin-bottom: 0;
+    }
+
+    .sub-step-num {
+      font-size: 15px;
+      font-weight: 600;
+      color: #aaa;
+      flex-shrink: 0;
+      min-width: 16px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+
+      .container {
+        padding: 0 24px;
+      }
+
+      /* Hero — stack vertically, text on top */
+      .hero {
+        flex-direction: column;
+        min-height: auto;
+      }
+
+      .hero-text {
+        width: 100%;
+        padding: 40px 24px 32px;
+      }
+
+      .hero-text h1 {
+        font-size: 36px;
+        letter-spacing: -0.5px;
+      }
+
+      .hero-text p {
+        font-size: 16px;
+        margin-bottom: 28px;
+      }
+
+      /* Screens — swipable strip */
+      .iphone-wrap {
+        overflow: hidden;
+        width: 100%;
+        padding: 20px 0 40px;
+        min-height: auto;
+        flex: none;
+        align-items: flex-start;
+      }
+
+      /* Hide scrollbar — swipe still works */
+      .iphone-wrap {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      .iphone-wrap::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* JS fades images in — hide before it runs */
+      .screen-img {
+        opacity: 0;
+      }
+
+      /* Stats — single column */
+      .stats {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 40px 0;
+      }
+
+      .stat-value {
+        font-size: 48px;
+        letter-spacing: -1px;
+      }
+
+      /* Features — single column */
+      .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .features {
+        padding: 56px 0;
+      }
+
+      .features h2,
+      .instructions-content h2 {
+        font-size: 32px;
+        letter-spacing: -0.5px;
+      }
+
+      .features .subtitle,
+      .instructions-content .subtitle {
+        font-size: 16px;
+        margin-bottom: 32px;
+      }
+
+      /* Instructions — stack vertically */
+      .instructions {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 56px 0 72px;
+      }
+
+      .instructions-media {
+        order: -1;
+      }
+
+      .step-body strong {
+        font-size: 16px;
+      }
+
+      .step-body span,
+      .device-note ol li,
+      .device-note h4 {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-text h1 {
+        font-size: 28px;
+      }
+
+      .stat-value {
+        font-size: 40px;
+      }
+
+      .logo {
+        font-size: 18px;
+      }
+
+      .logo svg {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero-outer">
+    <!-- LOGO -->
+    <div class="container">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_61_21061)"><rect width="32" height="32" rx="6.45378" fill="white"/><rect width="32.2689" height="32.2689" transform="translate(0 -0.186523)" fill="url(#paint0_linear_61_21061)"/><path d="M16.1727 6.36963C20.1044 6.36973 23.2917 9.55702 23.2918 13.4888C23.2918 16.1996 21.7763 18.5558 19.5467 19.7583C21.9104 20.5637 23.8873 22.1854 25.1658 24.2964C25.3677 24.6298 25.2618 25.0641 24.9285 25.2661C24.5951 25.468 24.1608 25.3612 23.9588 25.0278C22.3466 22.3658 19.4646 20.6081 16.1326 20.6079C12.8005 20.6079 9.91776 22.3657 8.30548 25.0278C8.10349 25.3612 7.66917 25.468 7.33576 25.2661C7.00248 25.0641 6.89654 24.6298 7.09845 24.2964C8.38594 22.1706 10.3817 20.5412 12.7674 19.7417C10.5547 18.5342 9.05353 16.1871 9.05353 13.4888C9.05363 9.55696 12.2408 6.36963 16.1727 6.36963ZM16.1727 7.78174C13.0205 7.78174 10.4648 10.3367 10.4647 13.4888C10.4647 16.641 13.0205 19.1968 16.1727 19.1968C19.3248 19.1967 21.8797 16.6409 21.8797 13.4888C21.8796 10.3367 19.3247 7.78184 16.1727 7.78174Z" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12.8243 14.8365C13.1273 14.5912 13.5718 14.638 13.817 14.941C14.3755 15.6308 15.186 16.0507 16.1323 16.0507C17.0786 16.0507 17.8891 15.6308 18.4475 14.941C18.6928 14.638 19.1373 14.5912 19.4403 14.8365C19.7433 15.0818 19.7901 15.5262 19.5448 15.8292C18.7318 16.8336 17.5255 17.4624 16.1323 17.4624C14.7391 17.4624 13.5328 16.8336 12.7198 15.8292C12.4745 15.5262 12.5213 15.0818 12.8243 14.8365Z" fill="white"/></g><defs><linearGradient id="paint0_linear_61_21061" x1="16.1345" y1="0" x2="16.1345" y2="32.2689" gradientUnits="userSpaceOnUse"><stop stop-color="#FF6E30"/><stop offset="0.572917" stop-color="#FF4C00"/><stop offset="1" stop-color="#E94600"/></linearGradient><clipPath id="clip0_61_21061"><rect width="32" height="32" rx="6.45378" fill="white"/></clipPath></defs></svg>
+        MyToast
+      </div>
+    </div>
+
+    <!-- HERO CAROUSEL — full width, text pinned to container left, screens bleed right -->
+    <div class="hero">
+      <div class="hero-text">
+        <span class="hero-label" id="carousel-label">The app</span>
+        <h1 id="carousel-heading">Teams run better with MyToast.</h1>
+        <p id="carousel-body">MyToast gives every employee instant access to their schedule, pay, and documents — so operators spend less time fielding questions and more time running the floor.</p>
+        <a class="btn-primary" href="https://project-mytoast-template-782.magicpatterns.app/" target="_blank">Open demo</a>
+        <div class="carousel-dots" id="carousel-dots"></div>
+      </div>
+
+      <div class="iphone-wrap">
+        <div class="screens-track" id="screens-track"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-outer">
+    <div class="container">
+      <div class="stats">
+        <div>
+          <div class="stat-value">380k+</div>
+          <div class="stat-label">Employees use it every month</div>
+        </div>
+        <div>
+          <div class="stat-value">57k+</div>
+          <div class="stat-label">Restaurant locations</div>
+        </div>
+        <div>
+          <div class="stat-value">5×</div>
+          <div class="stat-label">Average app opens per employee, per week</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="container">
+  <div class="features">
+    <h2>Built for the whole team.</h2>
+    <p class="subtitle">Each feature is powered by the Toast products already running in the restaurant.</p>
+
+    <div class="feature-grid">
+
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 7.0498V3.0498M16 7.0498V3.0498M3 10.4498H21M19 20.9498H5C3.9 20.9498 3 20.0498 3 18.9498V6.9498C3 5.8498 3.9 4.9498 5 4.9498H19C20.1 4.9498 21 5.8498 21 6.9498V18.9498C21 20.1498 20.1 20.9498 19 20.9498Z" stroke="#252525" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Scheduling</h3>
+        <p>Staff view shifts and request swaps from their phone. Managers approve in one tap.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.9794 7.62726V12.2573L15.7404 15.5593M18.154 18.0557C17.156 19.0703 15.9228 19.8226 14.5639 20.2456C13.205 20.6686 11.7626 20.7492 10.3651 20.4803C8.96754 20.2113 7.65813 19.6011 6.55331 18.7039C5.4485 17.8068 4.58255 16.6505 4.03246 15.3379C3.48238 14.0253 3.26523 12.5971 3.40032 11.1803C3.53542 9.76357 4.01856 8.40215 4.8068 7.21717C5.59503 6.03218 6.6639 5.06038 7.91835 4.38819C9.17281 3.716 10.5739 3.36426 11.9971 3.36426M15.2087 3.98746H15.2187M18.1039 5.89542H18.1139M19.938 8.6109H19.948M20.6278 12H20.6378M20.0054 15.2209H20.0154" stroke="#252525" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Timekeeping</h3>
+        <p>Employees clock in and out, and see their hours logged — no paper, no confusion.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.0566 9.39605C13.9603 9.23638 13.8402 9.09232 13.7005 8.96881C13.2749 8.60182 12.7273 8.40727 12.1655 8.42336C11.6304 8.40041 11.1016 8.54694 10.6546 8.84209C10.4471 8.97864 10.2773 9.16529 10.1609 9.3848C10.0446 9.60431 9.98542 9.84959 9.98891 10.098C9.97564 10.3325 10.0204 10.5666 10.1191 10.7796C10.2178 10.9927 10.3676 11.1781 10.555 11.3195C11.004 11.6192 11.5033 11.8354 12.029 11.9575L12.0634 11.9678C12.5952 12.091 13.099 12.3134 13.5484 12.6233C13.7436 12.7703 13.8998 12.9629 14.0034 13.1843C14.1071 13.4056 14.1549 13.6489 14.1429 13.893C14.1482 14.1507 14.0879 14.4056 13.9677 14.6336C13.8475 14.8617 13.6714 15.0555 13.4557 15.1968C13.0027 15.4961 12.4671 15.6456 11.9245 15.624C11.3567 15.6331 10.7988 15.4755 10.3196 15.1708C10.135 15.0516 9.97746 14.895 9.85718 14.711M12.1356 7.27173L12.1279 8.34329M12.0758 15.6567L12.0681 16.7283M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#252525" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Pay</h3>
+        <p>Wages, tips, and hours per shift — visible to every employee, instantly.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.94922 8.82051V4.72051C6.94922 4.32051 7.24922 4.02051 7.54922 4.02051H19.3492C19.7492 4.12051 19.9492 4.32051 19.9492 4.72051V12.8205C19.9492 13.2205 19.6492 13.5205 19.3492 13.5205H18.3492V16.8205C18.3492 17.0205 18.1492 17.0205 18.0492 16.9205L15.1492 13.5205M2.64922 11.2205H12.2492C12.5492 11.2205 12.8492 11.5205 12.8492 11.8205V18.2205C12.8492 18.6205 12.5492 18.8205 12.2492 18.8205H6.54922L3.94922 22.0205C3.84922 22.1205 3.74922 22.0205 3.74922 21.9205V18.9205H2.64922C2.34922 18.9205 2.04922 18.6205 2.04922 18.3205V11.8205C1.94922 11.5205 2.24922 11.2205 2.64922 11.2205Z" stroke="#252525" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Team communication</h3>
+        <p>Shift updates and announcements in one place. Keep teams off personal group chats.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.0508 19.0498H5.05078C3.95078 19.0498 3.05078 18.1498 3.05078 17.0498V7.0498C3.05078 5.9498 3.95078 5.0498 5.05078 5.0498H19.0508C20.1508 5.0498 21.0508 5.9498 21.0508 7.0498V17.0498C21.0508 18.1498 20.1508 19.0498 19.0508 19.0498Z" stroke="#252525" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.4508 8.44971L13.2508 10.2497C13.3508 10.3497 13.4508 10.4497 13.5508 10.5497L15.5508 10.8497C15.9508 10.9497 16.0508 11.3497 15.8508 11.6497L14.4508 13.0497C14.3508 13.0497 14.2508 13.1497 14.2508 13.3497L14.5508 15.2497C14.6508 15.6497 14.2508 15.9497 13.8508 15.7497L12.2508 14.8497C12.1508 14.7497 11.9508 14.7497 11.8508 14.8497L10.1508 15.7497C9.85079 15.9497 9.45079 15.6497 9.45079 15.2497L9.75079 13.3497C9.75079 13.2497 9.75079 13.0497 9.65079 12.9497L8.15079 11.5497C7.85079 11.2497 8.05079 10.8497 8.45079 10.7497L10.4508 10.4497C10.5508 10.4497 10.7508 10.3497 10.7508 10.1497L11.6508 8.34971C11.7508 8.14971 12.2508 8.14971 12.4508 8.44971Z" stroke="#252525" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Team engagement</h3>
+        <p>Run sales competitions and let the floor follow along live. Built-in motivation, zero extra tools.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.80078 21.0498H22.3008M14.0008 21.0498H10.0008V4.0498C10.0008 3.4498 10.4008 3.0498 11.0008 3.0498H13.0008C13.6008 3.0498 14.0008 3.4498 14.0008 4.0498V21.0498ZM21.0008 21.0498H17.0008V8.2498C17.0008 7.6498 17.4008 7.2498 18.0008 7.2498H20.0008C20.6008 7.2498 21.0008 7.6498 21.0008 8.2498V21.0498ZM7.00078 21.0498H3.00078V12.2498C3.00078 11.6498 3.40078 11.2498 4.00078 11.2498H6.00078C6.60078 11.2498 7.00078 11.6498 7.00078 12.2498V21.0498Z" stroke="#252525" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Team performance</h3>
+        <p>Give managers visibility into how the team is performing — shift by shift, week by week.</p>
+      </div>
+
+    </div>
+  </div>
+  </div>
+
+  <!-- INSTRUCTIONS -->
+  <div class="instructions-outer">
+  <div class="container">
+  <div class="instructions">
+
+    <!-- Replace with your GIF or video -->
+    <div class="instructions-media" title="Replace with GIF or recording"></div>
+
+    <div class="instructions-content">
+      <h2>Try the demo.</h2>
+      <p class="subtitle">Save it to the homescreen — it feels like the real app.</p>
+
+      <ol class="steps">
+        <li>
+          <span class="step-num">1.</span>
+          <div class="step-body">
+            <strong>Open the demo</strong>
+            <span>Tap the button to open MyToast in your browser.</span>
+            <a class="btn-step" href="https://project-mytoast-template-782.magicpatterns.app/" target="_blank">Open demo</a>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">2.</span>
+          <div class="step-body">
+            <strong>Save it to your homescreen</strong>
+            <span>This makes it look and feel like a real app.</span>
+            <div class="device-note">
+              <h4>For iPhone (Safari)</h4>
+              <ol>
+                <li><span class="sub-step-num">a.</span><span>Tap the Share button (box with arrow at the bottom)</span></li>
+                <li><span class="sub-step-num">b.</span><span>Tap Add to Home Screen</span></li>
+                <li><span class="sub-step-num">c.</span><span>Tap Add</span></li>
+              </ol>
+              <h4>For Android (Chrome)</h4>
+              <ol>
+                <li><span class="sub-step-num">a.</span><span>Tap the three-dot menu at the top right</span></li>
+                <li><span class="sub-step-num">b.</span><span>Tap Add to Home screen</span></li>
+                <li><span class="sub-step-num">c.</span><span>Tap Add</span></li>
+              </ol>
+            </div>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">3.</span>
+          <div class="step-body">
+            <strong>Tap through the flows</strong>
+            <span>Pay, shifts, documents, chat — everything is explorable.</span>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+  </div>
+  </div>
+  </div>
+
+  <style>
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+
+  <script>
+    // ── SCROLL FADE-UP ──
+    const fadeEls = document.querySelectorAll('.stats-outer, .features h2, .features .subtitle, .feature-card, .instructions-content h2, .instructions-content .subtitle, .steps li, .instructions-media');
+    fadeEls.forEach((el, i) => {
+      el.classList.add('fade-up');
+      el.style.transitionDelay = (i % 4) * 0.08 + 's';
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    fadeEls.forEach(el => observer.observe(el));
+
+    // ── STAT COUNT-UP ──
+    function parseStatValue(str) {
+      const num = parseFloat(str.replace(/[^0-9.]/g, ''));
+      const suffix = str.replace(/[0-9.]/g, '').trim();
+      return { num, suffix };
+    }
+
+    const statValues = document.querySelectorAll('.stat-value');
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        const { num, suffix } = parseStatValue(el.textContent);
+        if (isNaN(num)) return;
+        const duration = 1200;
+        const start = performance.now();
+        function tick(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 3);
+          const current = Math.round(ease * num * 10) / 10;
+          el.textContent = (Number.isInteger(num) ? Math.round(current) : current.toFixed(1)) + suffix;
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        statObserver.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+
+    statValues.forEach(el => statObserver.observe(el));
+  </script>
+
+  <script>
+    const slides = [
+      {
+        label: 'The app',
+        heading: 'Teams run better with MyToast.',
+        body: 'One app for schedules, pay, documents, and team communication — available to every employee, on any phone.',
+        img: '_hero/1 App.png',
+      },
+      {
+        label: 'Scheduling',
+        heading: 'Everyone knows when they work.',
+        body: 'Staff see their shifts, pick up open shifts, and request swaps — without texting the manager.',
+        img: '_hero/2 Schedule.png',
+      },
+      {
+        label: 'Pay',
+        heading: 'Every shift, every dollar — visible.',
+        body: 'Wages, tips, and hours per shift — visible the moment a shift closes. Paystubs and W-2s, self-serve.',
+        img: '_hero/3 Pay.png',
+      },
+      {
+        label: 'Team communication',
+        heading: 'The whole team, on the same page.',
+        body: 'Send shift updates, policy reminders, or last-minute changes directly to staff. Off group chats, on Toast.',
+        img: '_hero/4 Comms.png',
+      },
+      {
+        label: 'Team engagement',
+        heading: 'Motivate the floor, in real time.',
+        body: 'Run sales contests and let employees follow the leaderboard live. Built-in motivation, no extra tools.',
+        img: '_hero/5 Contests.png',
+      },
+      {
+        label: 'Team performance',
+        heading: 'Hear how shifts are really going.',
+        body: 'Employees share shift sentiment after every close. Managers get a pulse on the team without asking.',
+        img: '_hero/6 Shift sentiment.png',
+      },
+    ];
+
+    const N = slides.length;
+    let current = 0;
+
+    const labelEl   = document.getElementById('carousel-label');
+    const headingEl = document.getElementById('carousel-heading');
+    const bodyEl    = document.getElementById('carousel-body');
+    const dotsEl    = document.getElementById('carousel-dots');
+    const track     = document.getElementById('screens-track');
+    const iphoneWrap = track.parentElement;
+
+    const GAP_AFTER_ACTIVE = 20;
+    const GAP_BETWEEN      = 12;
+    const WIDTHS           = { active: 300, next: 240, far: 210 };
+
+    // ── MOBILE DETECTION ──
+    function isMobile() { return window.innerWidth <= 768; }
+
+    // ── IMAGE CREATION ──
+    const imgEls = slides.map((s, i) => {
+      const img = document.createElement('img');
+      img.src = s.img;
+      img.alt = s.label;
+      img.className = 'screen-img';
+      img.style.position = 'absolute';
+      img.addEventListener('click', () => {
+        if (!isMobile() && getSlot(i) !== 0) goTo(i);
+      });
+      track.appendChild(img);
+      return img;
+    });
+
+    // Build dots
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+      dot.addEventListener('click', () => goTo(i));
+      dotsEl.appendChild(dot);
+    });
+
+    function getSlot(i) { return (i - current + N) % N; }
+
+    // ── DESKTOP LAYOUT ──
+    function slotWidth(slot) {
+      if (slot === 0) return WIDTHS.active;
+      if (slot === 1) return WIDTHS.next;
+      return WIDTHS.far;
+    }
+    function slotLeft(slot) {
+      let x = 0;
+      for (let s = 0; s < slot; s++) {
+        x += slotWidth(s) + (s === 0 ? GAP_AFTER_ACTIVE : GAP_BETWEEN);
+      }
+      return x;
+    }
+
+    // ── MOBILE SWIPE LAYOUT ──
+    // Each image is the same width, laid out in a horizontal strip.
+    // The active image is left-aligned at a small inset; the next image peeks
+    // from the right edge, hinting that there's more to swipe.
+    function getMobileCardWidth() {
+      return Math.round(window.innerWidth * 0.72);
+    }
+    const MOBILE_GAP = 16;
+    const MOBILE_INSET = 24; // left offset of active card
+
+    function layoutMobile() {
+      const cardW = getMobileCardWidth();
+      const TRACK_HEIGHT = Math.round(cardW * 2.05);
+
+      track.style.height = TRACK_HEIGHT + 'px';
+      track.style.width  = (MOBILE_INSET + N * (cardW + MOBILE_GAP)) + 'px';
+
+      imgEls.forEach((img, i) => {
+        img.classList.remove('is-active', 'is-next', 'is-far');
+        img.style.top    = '0';
+        img.style.transform = 'none';
+        img.style.width  = cardW + 'px';
+        img.style.left   = (MOBILE_INSET + i * (cardW + MOBILE_GAP)) + 'px';
+        img.style.transition = 'opacity 0.3s ease';
+        const dist = Math.abs((i - current + N) % N);
+        img.style.opacity = dist === 0 ? '1' : dist === 1 ? '0.55' : '0.3';
+        img.style.zIndex  = '1';
+        img.style.cursor  = dist === 0 ? 'default' : 'pointer';
+      });
+
+      // Scroll the track so the active card is at MOBILE_INSET from left
+      const scrollTarget = current * (cardW + MOBILE_GAP);
+      iphoneWrap.style.overflowX = 'auto';
+      iphoneWrap.style.scrollBehavior = 'smooth';
+      iphoneWrap.scrollLeft = scrollTarget;
+    }
+
+    // ── DESKTOP LAYOUT ──
+    function layoutDesktop() {
+      const TRACK_HEIGHT = Math.round(WIDTHS.active * 2.05);
+      track.style.position = 'relative';
+      track.style.height   = TRACK_HEIGHT + 'px';
+
+      imgEls.forEach((img, i) => {
+        const slot = getSlot(i);
+        const targetOpacity = slot === 0 ? 1 : slot === 1 ? 0.75 : 0.4;
+
+        img.classList.remove('is-active', 'is-next', 'is-far');
+        img.style.top       = '50%';
+        img.style.transform = 'translateY(-50%)';
+        img.style.zIndex    = N - slot;
+        if (slot === 0)      img.classList.add('is-active');
+        else if (slot === 1) img.classList.add('is-next');
+        else                 img.classList.add('is-far');
+
+        // Snap position this frame, then fade opacity from next frame so the browser sees a "before"
+        img.style.transition = 'none';
+        img.style.left       = slotLeft(slot) + 'px';
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            img.style.transition = 'opacity 0.6s ease';
+            img.style.opacity    = targetOpacity;
+          });
+        });
+      });
+
+      let totalW = 0;
+      for (let s = 0; s < N; s++) {
+        totalW += slotWidth(s) + (s < N - 1 ? (s === 0 ? GAP_AFTER_ACTIVE : GAP_BETWEEN) : 0);
+      }
+      track.style.width = totalW + 'px';
+    }
+
+    // ── UPDATE TEXT + DOTS ──
+    function updateText() {
+      const s = slides[current];
+      [labelEl, headingEl, bodyEl].forEach(el => {
+        el.style.transition = 'opacity 0.2s ease';
+        el.style.opacity = '0';
+      });
+      setTimeout(() => {
+        labelEl.textContent   = s.label;
+        headingEl.textContent = s.heading;
+        bodyEl.textContent    = s.body;
+        [labelEl, headingEl, bodyEl].forEach(el => {
+          el.style.transition = 'opacity 0.3s ease';
+          el.style.opacity = '1';
+        });
+      }, 200);
+      document.querySelectorAll('.carousel-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+      });
+    }
+
+    function update() {
+      updateText();
+      if (isMobile()) layoutMobile(); else layoutDesktop();
+    }
+
+    function goTo(index) {
+      current = ((index % N) + N) % N;
+      update();
+    }
+
+    // ── MOBILE: sync carousel index as user scrolls ──
+    let scrollDebounce = null;
+    iphoneWrap.addEventListener('scroll', () => {
+      if (!isMobile()) return;
+      clearTimeout(scrollDebounce);
+      scrollDebounce = setTimeout(() => {
+        const cardW = getMobileCardWidth();
+        const idx = Math.round(iphoneWrap.scrollLeft / (cardW + MOBILE_GAP));
+        const clamped = Math.max(0, Math.min(N - 1, idx));
+        if (clamped !== current) {
+          current = clamped;
+          updateText();
+          layoutMobile(); // re-tint opacities without scrolling
+        }
+      }, 80);
+    }, { passive: true });
+
+    // ── MOBILE: touch swipe on the track itself (fallback for non-scrolling taps) ──
+    let touchStartX = 0;
+    track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', e => {
+      if (!isMobile()) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+
+    // ── RESIZE: re-layout without changing current ──
+    window.addEventListener('resize', () => {
+      if (isMobile()) layoutMobile(); else layoutDesktop();
+    });
+
+    // ── INITIAL RENDER ──
+    update();
+
+    // Animate screens in on load — staggered lift + fade
+    if (!isMobile()) {
+      imgEls.forEach((img, i) => {
+        const slot = getSlot(i);
+        const targetOpacity = slot === 0 ? 1 : slot === 1 ? 0.75 : 0.4;
+        img.style.opacity = '0';
+        img.style.transform = 'translateY(calc(-50% + 20px))';
+        setTimeout(() => {
+          img.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+          img.style.opacity = targetOpacity;
+          img.style.transform = 'translateY(-50%)';
+        }, 150 + slot * 100);
+      });
+    } else {
+      imgEls.forEach((img, i) => {
+        const dist = Math.abs((i - current + N) % N);
+        const targetOpacity = dist === 0 ? 1 : dist === 1 ? 0.55 : 0.3;
+        img.style.opacity = '0';
+        img.style.transition = 'none';
+        setTimeout(() => {
+          img.style.transition = 'opacity 0.6s ease';
+          img.style.opacity = targetOpacity;
+        }, 100 + i * 60);
+      });
+    }
+  </script>
+</body>
+</html>
